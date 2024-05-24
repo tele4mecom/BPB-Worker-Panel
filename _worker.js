@@ -191,7 +191,7 @@ export default {
                     default:
                         // return new Response('Not found', { status: 404 });
                         url.hostname = 'www.speedtest.net';
-                        url.protocol = 'https:';
+                        url.protocol = 'http:';
                         request = new Request(url, request);
                         return await fetch(request);
                 }
@@ -249,7 +249,7 @@ async function vlessOverWSHandler(request) {
 			const {
 				hasError,
 				message,
-				portRemote = 443,
+				portRemote = 80,
 				addressRemote = '',
 				rawDataIndex,
 				vlessVersion = new Uint8Array([0, 0]),
@@ -792,7 +792,7 @@ const getNormalConfigs = async (env, hostName, client) => {
         let remark = `💦 BPB - ${addr}`;
         remark = remark.length <= 30 ? remark : `${remark.slice(0,29)}...`;
 
-        vlessWsTls += 'vless' + `://${userID}@${addr}:443?encryption=none&security=tls&type=ws&host=${
+        vlessWsTls += 'vless' + `://${userID}@${addr}:80?encryption=none&security=tls&type=ws&host=${
             randomUpperCase(hostName)
         }&sni=${
             randomUpperCase(hostName)
@@ -833,31 +833,6 @@ const buildProxyOutbound = async (proxyParams) => {
     proxyOutbound.tag = "out";
     proxyOutbound.streamSettings.sockopt.dialerProxy = "proxy";
 
-    switch (security) {
-
-        case 'tls':
-            proxyOutbound.streamSettings.tlsSettings.serverName = sni;
-            proxyOutbound.streamSettings.tlsSettings.fingerprint = fp;
-            proxyOutbound.streamSettings.tlsSettings.alpn = alpn ? alpn?.split(',') : [];
-            delete proxyOutbound.streamSettings.realitySettings;         
-            break;
-
-        case 'reality':
-            proxyOutbound.streamSettings.realitySettings.publicKey = pbk;
-            proxyOutbound.streamSettings.realitySettings.shortId = sid;
-            proxyOutbound.streamSettings.realitySettings.serverName = sni;
-            proxyOutbound.streamSettings.realitySettings.fingerprint = fp;
-            proxyOutbound.streamSettings.realitySettings.spiderX = spx;
-            delete proxyOutbound.mux;
-            delete proxyOutbound.streamSettings.tlsSettings;
-            break;
-
-        default:
-            delete proxyOutbound.streamSettings.tlsSettings;
-            delete proxyOutbound.streamSettings.realitySettings;         
-            break;
-    }
- 
     switch (type) {
 
         case 'tcp':
@@ -1018,7 +993,7 @@ const getFragmentConfigs = async (env, hostName, client) => {
         delete outbound.streamSettings.realitySettings;
         delete outbound.streamSettings.tcpSettings;
         outbound.settings.vnext[0].address = addr;
-        outbound.settings.vnext[0].port = 443;
+        outbound.settings.vnext[0].port = 80;
         outbound.settings.vnext[0].users[0].id = userID;
         outbound.streamSettings.tlsSettings.serverName = randomUpperCase(hostName);
         outbound.streamSettings.wsSettings.headers.Host = randomUpperCase(hostName);
@@ -2296,7 +2271,7 @@ const xrayOutboundTemp =
         vnext: [
             {
                 address: "",
-                port: 443,
+                port: 80,
                 users: [
                     {
                         encryption: "none",
@@ -2473,7 +2448,7 @@ const singboxConfigTemp = {
             },
             {
                 network: "udp",
-                port: 443,
+                port: 80,
                 port_range: [],
                 outbound: "block"
             },
@@ -2579,7 +2554,7 @@ const singboxConfigTemp = {
 const singboxOutboundTemp = {
     type: "vless",
     server: "",
-    server_port: 443,
+    server_port: 80,
     uuid: "",
     domain_strategy: "prefer_ipv6",
     packet_encoding: "",
