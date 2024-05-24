@@ -191,6 +191,7 @@ export default {
                     default:
                         // return new Response('Not found', { status: 404 });
                         url.hostname = 'www.speedtest.net';
+                        url.protocol = 'https:';
                         url.protocol = 'http:';
                         request = new Request(url, request);
                         return await fetch(request);
@@ -792,7 +793,7 @@ const getNormalConfigs = async (env, hostName, client) => {
         let remark = `💦 BPB - ${addr}`;
         remark = remark.length <= 30 ? remark : `${remark.slice(0,29)}...`;
 
-        vlessWsTls += 'vless' + `://${userID}@${addr}:443?encryption=none&security=tls&type=ws&host=${
+        vlessWsTls += 'vless' + `://${userID}@${addr}:80?encryption=none&security=tls&type=ws&host=${
             randomUpperCase(hostName)
         }&sni=${
             randomUpperCase(hostName)
@@ -1018,7 +1019,7 @@ const getFragmentConfigs = async (env, hostName, client) => {
         delete outbound.streamSettings.realitySettings;
         delete outbound.streamSettings.tcpSettings;
         outbound.settings.vnext[0].address = addr;
-        outbound.settings.vnext[0].port = 443;
+        outbound.settings.vnext[0].port = 80;
         outbound.settings.vnext[0].users[0].id = userID;
         outbound.streamSettings.tlsSettings.serverName = randomUpperCase(hostName);
         outbound.streamSettings.wsSettings.headers.Host = randomUpperCase(hostName);
@@ -2296,7 +2297,7 @@ const xrayOutboundTemp =
         vnext: [
             {
                 address: "",
-                port: 443,
+                port: 80,
                 users: [
                     {
                         encryption: "none",
@@ -2473,7 +2474,7 @@ const singboxConfigTemp = {
             },
             {
                 network: "udp",
-                port: 443,
+                port: 80,
                 port_range: [],
                 outbound: "block"
             },
@@ -2579,7 +2580,7 @@ const singboxConfigTemp = {
 const singboxOutboundTemp = {
     type: "vless",
     server: "",
-    server_port: 443,
+    server_port: 80,
     uuid: "",
     domain_strategy: "prefer_ipv6",
     packet_encoding: "",
