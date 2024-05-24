@@ -792,7 +792,7 @@ const getNormalConfigs = async (env, hostName, client) => {
         let remark = `💦 BPB - ${addr}`;
         remark = remark.length <= 30 ? remark : `${remark.slice(0,29)}...`;
 
-        vlessWsTls += 'vless' + `://${userID}@${addr}:2096?encryption=none&security=tls&type=ws&host=${
+        vlessWsTls += 'vless' + `://${userID}@${addr}:443?encryption=none&security=tls&type=ws&host=${
             randomUpperCase(hostName)
         }&sni=${
             randomUpperCase(hostName)
@@ -1018,7 +1018,7 @@ const getFragmentConfigs = async (env, hostName, client) => {
         delete outbound.streamSettings.realitySettings;
         delete outbound.streamSettings.tcpSettings;
         outbound.settings.vnext[0].address = addr;
-        outbound.settings.vnext[0].port = 2096;
+        outbound.settings.vnext[0].port = 443;
         outbound.settings.vnext[0].users[0].id = userID;
         outbound.streamSettings.tlsSettings.serverName = randomUpperCase(hostName);
         outbound.streamSettings.wsSettings.headers.Host = randomUpperCase(hostName);
@@ -2296,7 +2296,7 @@ const xrayOutboundTemp =
         vnext: [
             {
                 address: "",
-                port: 2096,
+                port: 443,
                 users: [
                     {
                         encryption: "none",
@@ -2473,7 +2473,7 @@ const singboxConfigTemp = {
             },
             {
                 network: "udp",
-                port: 2096,
+                port: 443,
                 port_range: [],
                 outbound: "block"
             },
@@ -2579,7 +2579,7 @@ const singboxConfigTemp = {
 const singboxOutboundTemp = {
     type: "vless",
     server: "",
-    server_port: 2096,
+    server_port: 443,
     uuid: "",
     domain_strategy: "prefer_ipv6",
     packet_encoding: "",
