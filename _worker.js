@@ -8,6 +8,7 @@ import { connect } from 'cloudflare:sockets';
 // How to generate your own UUID:
 // https://www.uuidgenerator.net/
 let userID = 'ce79b6cd-1f23-4983-a503-00ab2ac0283f';
+let userID = 'ab300367-db5d-4784-b7b0-59614b390ad4';
 
 // https://www.nslookup.io/domains/cdn.xn--b6gac.eu.org/dns-records/
 // https://www.nslookup.io/domains/cdn-all.xn--b6gac.eu.org/dns-records/
